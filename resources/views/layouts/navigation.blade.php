@@ -28,6 +28,9 @@
                         <x-nav-link :href="route('chair.audit.log')" :active="request()->routeIs('chair.audit.log')">
                             {{ __('Audit Log') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('chair.teachers')" :active="request()->routeIs('chair.teachers*')">
+                            {{ __('Teachers') }}
+                        </x-nav-link>
                     @else
                         <x-nav-link :href="route('teacher.dashboard')" :active="request()->routeIs('teacher.dashboard')">
                             {{ __('Dashboard') }}
@@ -113,6 +116,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('chair.audit.log')" :active="request()->routeIs('chair.audit.log')">
                     {{ __('Audit Log') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('chair.teachers')" :active="request()->routeIs('chair.teachers*')">
+                    {{ __('Teachers') }}
                 </x-responsive-nav-link>
             @else
                 <x-responsive-nav-link :href="route('teacher.dashboard')" :active="request()->routeIs('teacher.dashboard')">

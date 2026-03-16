@@ -465,4 +465,108 @@ public function exportCsv()
 
         return view('chair.audit_log', compact('logs'));
     }
+
+public function teachers()
+{
+    $teachers = TeacherProfile::with(['user', 'availabilities', 'assignments'])
+        ->get();
+
+    return view('chair.teachers', compact('teachers'));
+}
+
+public function addTeacher(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'expertise_areas' => 'required|string',
+        'max_units' => 'required|integer|min:1|max:30',
+        'password' => 'required|string|min:8',
+    ]);
+
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role' => 'teacher',
+    ]);
+
+    TeacherProfile::create([
+        'user_id' => $user->id,
+        'expertise_areas' => $request->expertise_areas,
+        'max_units' => $request->max_units,
+    ]);
+
+    // Add availabilities if provided
+    if ($request->has('days')) {
+        foreach ($request->days as $index => $day) {
+            if (!empty($day)) {
+                Availability::create([
+                    'teacher_profile_id' => $user->teacherProfile->id,
+                    'day' => $day,
+                    'time_start' => $request->time_starts[$index],
+                    'time_end' => $request->time_ends[$index],
+                ]);
+            }
+        }
+    }
+
+    return back()->with('success', "Teacher {$user->name} added successfully.");
+}
+
+public function editTeacher($id)
+{
+    $teacher = TeacherProfile::with(['user', 'availabilities'])->findOrFail($id);
+    return view('chair.teachers_edit', compact('teacher'));
+}
+
+public function updateTeacher(Request $request, $id)
+{
+    $teacher = TeacherProfile::with(['user', 'availabilities'])->findOrFail($id);
+
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $teacher->user->id,
+        'expertise_areas' => 'required|string',
+        'max_units' => 'required|integer|min:1|max:30',
+    ]);
+
+    $teacher->user->update([
+        'name' => $request->name,
+        'email' => $request->email,
+    ]);
+
+    $teacher->update([
+        'expertise_areas' => $request->expertise_areas,
+        'max_units' => $request->max_units,
+    ]);
+
+    // Update availabilities
+    Availability::where('teacher_profile_id', $teacher->id)->delete();
+
+    if ($request->has('days')) {
+        foreach ($request->days as $index => $day) {
+            if (!empty($day)) {
+                Availability::create([
+                    'teacher_profile_id' => $teacher->id,
+                    'day' => $day,
+                    'time_start' => $request->time_starts[$index],
+                    'time_end' => $request->time_ends[$index],
+                ]);
+            }
+        }
+    }
+
+    return redirect()->route('chair.teachers')->with('success', "Teacher {$teacher->user->name} updated successfully.");
+}
+
+public function deleteTeacher($id)
+{
+    $teacher = TeacherProfile::with('user')->findOrFail($id);
+    $name = $teacher->user->name;
+    $teacher->user->delete(); // cascades to teacher_profile and availabilities
+
+    return back()->with('success', "Teacher {$name} deleted successfully.");
+}
+
 }

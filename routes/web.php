@@ -35,6 +35,12 @@ Route::middleware(['auth', 'role:program_chair'])->group(function () {
     Route::get('/chair/report/export-pdf', [ChairController::class, 'exportPdf'])->name('chair.report.pdf');
     Route::get('/chair/audit-log', [ChairController::class, 'auditLog'])->name('chair.audit.log');
     Route::get('/chair/templates/{type}/{format}', [ChairController::class, 'downloadTemplate'])->name('chair.templates.download');
+
+    Route::get('/chair/teachers', [ChairController::class, 'teachers'])->name('chair.teachers');
+    Route::post('/chair/teachers', [ChairController::class, 'addTeacher'])->name('chair.teachers.add');
+    Route::get('/chair/teachers/{id}/edit', [ChairController::class, 'editTeacher'])->name('chair.teachers.edit');
+    Route::patch('/chair/teachers/{id}', [ChairController::class, 'updateTeacher'])->name('chair.teachers.update');
+    Route::delete('/chair/teachers/{id}', [ChairController::class, 'deleteTeacher'])->name('chair.teachers.delete');
 });
 
 Route::middleware(['auth', 'role:teacher'])->group(function () {
