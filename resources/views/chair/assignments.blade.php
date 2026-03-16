@@ -28,6 +28,72 @@
                 </form>
             </div>
 
+            {{-- Search and Filter --}}
+            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+                <form method="GET" action="{{ route('chair.assignments') }}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+                    {{-- Search --}}
+                    <div>
+                        <label class="block text-xs font-medium text-gray-600 mb-1">Search</label>
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            placeholder="Teacher or subject name..."
+                            class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+                    </div>
+
+                    {{-- Filter by Rationale --}}
+                    <div>
+                        <label class="block text-xs font-medium text-gray-600 mb-1">Rationale</label>
+                        <select name="rationale" class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+                            <option value="">All</option>
+                            <option value="expertise_match" {{ request('rationale') === 'expertise_match' ? 'selected' : '' }}>Expertise Match</option>
+                            <option value="availability" {{ request('rationale') === 'availability' ? 'selected' : '' }}>Availability</option>
+                            <option value="manual_override" {{ request('rationale') === 'manual_override' ? 'selected' : '' }}>Manual Override</option>
+                        </select>
+                    </div>
+
+                    {{-- Filter by Status --}}
+                    <div>
+                        <label class="block text-xs font-medium text-gray-600 mb-1">Status</label>
+                        <select name="status" class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+                            <option value="">All</option>
+                            <option value="ok" {{ request('status') === 'ok' ? 'selected' : '' }}>OK</option>
+                            <option value="overloaded" {{ request('status') === 'overloaded' ? 'selected' : '' }}>Overloaded</option>
+                        </select>
+                    </div>
+
+                    {{-- Filter by Day --}}
+                    <div>
+                        <label class="block text-xs font-medium text-gray-600 mb-1">Day</label>
+                        <select name="day" class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+                            <option value="">All Days</option>
+                            @foreach(['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'] as $day)
+                                <option value="{{ $day }}" {{ request('day') === $day ? 'selected' : '' }}>
+                                    {{ $day }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- Buttons --}}
+                    <div class="sm:col-span-2 lg:col-span-4 flex gap-3">
+                        <button type="submit"
+                            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                            Search / Filter
+                        </button>
+                        <a href="{{ route('chair.assignments') }}"
+                            class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                            Clear
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+
+            {{-- Results Count --}}
+            <div class="text-sm text-gray-500">
+                Showing {{ $assignments->count() }} assignment(s)
+            </div>
+
             {{-- Assignments Table --}}
             <div class="bg-white shadow-sm sm:rounded-lg p-6">
                 <table class="w-full text-sm text-left">
@@ -82,7 +148,7 @@
                         @empty
                         <tr>
                             <td colspan="7" class="px-4 py-6 text-center text-gray-400">
-                                No assignments yet. Click Generate Schedule.
+                                No assignments found.
                             </td>
                         </tr>
                         @endforelse

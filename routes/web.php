@@ -33,14 +33,18 @@ Route::middleware(['auth', 'role:program_chair'])->group(function () {
 
     Route::get('/chair/report/export-csv', [ChairController::class, 'exportCsv'])->name('chair.report.csv');
     Route::get('/chair/report/export-pdf', [ChairController::class, 'exportPdf'])->name('chair.report.pdf');
+    Route::get('/chair/audit-log', [ChairController::class, 'auditLog'])->name('chair.audit.log');
 });
 
 Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/dashboard/teacher', [TeacherController::class, 'index'])->name('teacher.dashboard');
     Route::get('/teacher/export-schedule', [TeacherController::class, 'exportSchedule'])->name('teacher.export.schedule');
+    Route::get('/teacher/notifications', [TeacherController::class, 'notifications'])->name('teacher.notifications');
+    Route::patch('/teacher/notifications/{id}/read', [TeacherController::class, 'markAsRead'])->name('teacher.notifications.read');
+    Route::patch('/teacher/notifications/read-all', [TeacherController::class, 'markAllRead'])->name('teacher.notifications.read.all');
 
-    Route::get('/teacher/profile', [TeacherController::class, 'editProfile'])->name('teacher.profile');
-    Route::patch('/teacher/profile', [TeacherController::class, 'updateProfile'])->name('teacher.profile.update');
+    Route::get('/teacher/teaching-profile', [TeacherController::class, 'teachingProfile'])->name('teacher.teaching.profile');
+    Route::patch('/teacher/teaching-profile', [TeacherController::class, 'updateTeachingProfile'])->name('teacher.teaching.profile.update');
 });
 
 require __DIR__.'/auth.php';

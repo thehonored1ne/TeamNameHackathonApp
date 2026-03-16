@@ -15,43 +15,102 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class ChairController extends Controller
 {
-    public function index()
-    {
-        $totalTeachers = TeacherProfile::count();
-        $totalSubjects = Subject::count();
-        $totalAssignments = Assignment::count();
-        $overloadedCount = Assignment::where('is_overloaded', true)->count();
-        $recentAssignments = Assignment::with([
-            'teacherProfile.user',
-            'subject'
-        ])->latest()->take(5)->get();
+ public function index()
+{
+    $totalTeachers = TeacherProfile::count();
+    $totalSubjects = Subject::count();
+    $totalAssignments = Assignment::count();
+    $overloadedCount = Assignment::where('is_overloaded', true)->count();
+    $recentAssignments = Assignment::with([
+        'teacherProfile.user',
+        'subject'
+    ])->latest()->take(5)->get();
 
-        return view('chair.dashboard', compact(
-            'totalTeachers',
-            'totalSubjects',
-            'totalAssignments',
-            'overloadedCount',
-            'recentAssignments'
-        ));
+    // Chart 1 — Assignments by rationale
+    $expertiseCount = Assignment::where('rationale', 'expertise_match')->count();
+    $availabilityCount = Assignment::where('rationale', 'availability')->count();
+    $overrideCount = Assignment::where('rationale', 'manual_override')->count();
+
+    // Chart 2 — Units per teacher
+    $teachers = TeacherProfile::with(['user', 'assignments'])->get();
+    $teacherNames = $teachers->map(fn($t) => $t->user->name)->toArray();
+    $teacherUnits = $teachers->map(fn($t) => $t->assignments->sum('total_units'))->toArray();
+    $teacherMaxUnits = $teachers->map(fn($t) => $t->max_units)->toArray();
+
+    // Chart 3 — Assignments per day
+    $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    $assignmentsPerDay = [];
+    foreach ($days as $day) {
+        $assignmentsPerDay[] = Assignment::whereHas('schedule', function ($q) use ($day) {
+            $q->where('day', $day);
+        })->count();
     }
+
+    return view('chair.dashboard', compact(
+        'totalTeachers',
+        'totalSubjects',
+        'totalAssignments',
+        'overloadedCount',
+        'recentAssignments',
+        'expertiseCount',
+        'availabilityCount',
+        'overrideCount',
+        'teacherNames',
+        'teacherUnits',
+        'teacherMaxUnits',
+        'days',
+        'assignmentsPerDay'
+    ));
+}
 
     public function upload()
     {
         return view('chair.upload');
     }
 
-    public function assignments()
-    {
-        $assignments = Assignment::with([
-            'teacherProfile.user',
-            'subject',
-            'schedule'
-        ])->get();
+public function assignments(Request $request)
+{
+    $query = Assignment::with([
+        'teacherProfile.user',
+        'subject',
+        'schedule'
+    ]);
 
-        $teachers = TeacherProfile::with('user')->get();
-
-        return view('chair.assignments', compact('assignments', 'teachers'));
+    // Search by teacher name or subject
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function ($q) use ($search) {
+            $q->whereHas('teacherProfile.user', function ($q2) use ($search) {
+                $q2->where('name', 'like', "%$search%");
+            })->orWhereHas('subject', function ($q2) use ($search) {
+                $q2->where('name', 'like', "%$search%")
+                   ->orWhere('code', 'like', "%$search%");
+            });
+        });
     }
+
+    // Filter by rationale
+    if ($request->filled('rationale')) {
+        $query->where('rationale', $request->rationale);
+    }
+
+    // Filter by status
+    if ($request->filled('status')) {
+        $query->where('is_overloaded', $request->status === 'overloaded');
+    }
+
+    // Filter by day
+    if ($request->filled('day')) {
+        $query->whereHas('schedule', function ($q) use ($request) {
+            $q->where('day', $request->day);
+        });
+    }
+
+    $assignments = $query->get();
+    $teachers = TeacherProfile::with('user')->get();
+
+    return view('chair.assignments', compact('assignments', 'teachers'));
+}
 
     public function report()
     {
@@ -253,5 +312,14 @@ class ChairController extends Controller
         }
 
         return $summary;
+    }
+
+    public function auditLog()
+    {
+        $logs = \App\Models\AuditLog::with('user')
+            ->latest()
+            ->paginate(20);
+
+        return view('chair.audit_log', compact('logs'));
     }
 }

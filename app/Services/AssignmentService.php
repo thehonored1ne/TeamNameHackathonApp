@@ -6,50 +6,44 @@ use App\Models\Assignment;
 use App\Models\Schedule;
 use App\Models\Subject;
 use App\Models\TeacherProfile;
+use App\Services\NotificationService;
 
 class AssignmentService
 {
     public function generate(int $assignedBy): array
     {
-        // Clear previous auto-assignments
         Assignment::where('rationale', '!=', 'manual_override')->delete();
 
         $subjects = Subject::all();
         $schedules = Schedule::all();
-        $teachers = TeacherProfile::with(['availabilities', 'assignments'])->get();
+        $teachers = TeacherProfile::with(['availabilities', 'assignments', 'user'])->get();
         $results = [];
         $scheduleIndex = 0;
 
-        // Track assigned subjects for prerequisites check
         $assignedSubjectCodes = Assignment::whereIn('rationale', ['expertise_match', 'availability'])
             ->with('subject')
             ->get()
             ->pluck('subject.code')
             ->toArray();
 
-        // Track teacher schedule conflicts: [teacher_id => [schedule_id, ...]]
         $teacherScheduleMap = [];
 
         foreach ($subjects as $subject) {
-            // Check prerequisites
             if (!empty($subject->prerequisites)) {
                 $prereqs = array_map('trim', explode(',', $subject->prerequisites));
                 foreach ($prereqs as $prereq) {
                     if (!in_array($prereq, $assignedSubjectCodes)) {
-                        // Skip subject — prerequisite not yet assigned
                         continue 2;
                     }
                 }
             }
 
-            // Pick a schedule slot
             $schedule = $schedules->get($scheduleIndex);
             if (!$schedule) break;
             $scheduleIndex++;
 
-            // Step 1: Expertise match
             $expertiseMatches = $teachers->filter(function ($teacher) use ($subject) {
-                $expertiseList = array_map('trim', explode(',', strtolower($teacher->expertise_areas)));
+                $expertiseList = array_map('trim', explode('|', strtolower($teacher->expertise_areas)));
                 $subjectName = strtolower($subject->name);
                 $subjectCode = strtolower($subject->code);
 
@@ -61,19 +55,16 @@ class AssignmentService
                 return false;
             });
 
-            // Step 2: Filter by availability
             $availableExpertise = $expertiseMatches->filter(function ($teacher) use ($schedule, $teacherScheduleMap) {
                 return $this->isAvailable($teacher, $schedule) &&
                     $this->hasNoConflict($teacher->id, $schedule->id, $teacherScheduleMap);
             });
 
-            // Step 3: Fallback to availability only
             $availableOnly = $teachers->filter(function ($teacher) use ($schedule, $teacherScheduleMap) {
                 return $this->isAvailable($teacher, $schedule) &&
                     $this->hasNoConflict($teacher->id, $schedule->id, $teacherScheduleMap);
             });
 
-            // Step 4: Pick best teacher
             $rationale = 'expertise_match';
             $selectedTeacher = $availableExpertise->first();
 
@@ -84,12 +75,10 @@ class AssignmentService
 
             if (!$selectedTeacher) continue;
 
-            // Step 5: Calculate total units
             $currentUnits = $selectedTeacher->assignments()->sum('total_units');
             $newTotal = $currentUnits + $subject->units;
             $isOverloaded = $newTotal > $selectedTeacher->max_units;
 
-            // Step 6: Create assignment
             $assignment = Assignment::create([
                 'teacher_profile_id' => $selectedTeacher->id,
                 'subject_id' => $subject->id,
@@ -100,12 +89,24 @@ class AssignmentService
                 'assigned_by' => $assignedBy,
             ]);
 
-            // Track conflict map
+            // Send notification to teacher
+            NotificationService::send(
+                $selectedTeacher->user->id,
+                'New Subject Assigned',
+                "You have been assigned to teach {$subject->name} ({$subject->code}) on {$schedule->day} {$schedule->time_start} - {$schedule->time_end} at {$schedule->room}."
+            );
+
+            // Send overload notification
+            if ($isOverloaded) {
+                NotificationService::send(
+                    $selectedTeacher->user->id,
+                    'Overload Warning',
+                    "Your total units have exceeded the maximum limit after being assigned {$subject->name}. Please contact your Program Chair."
+                );
+            }
+
             $teacherScheduleMap[$selectedTeacher->id][] = $schedule->id;
-
-            // Track assigned subject codes for prerequisites
             $assignedSubjectCodes[] = $subject->code;
-
             $results[] = $assignment;
         }
 

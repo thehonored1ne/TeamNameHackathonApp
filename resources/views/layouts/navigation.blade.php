@@ -25,9 +25,25 @@
                         <x-nav-link :href="route('chair.report')" :active="request()->routeIs('chair.report')">
                             {{ __('Report') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('chair.audit.log')" :active="request()->routeIs('chair.audit.log')">
+                            {{ __('Audit Log') }}
+                        </x-nav-link>
                     @else
                         <x-nav-link :href="route('teacher.dashboard')" :active="request()->routeIs('teacher.dashboard')">
                             {{ __('Dashboard') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('teacher.teaching.profile')" :active="request()->routeIs('teacher.teaching.profile')">
+                            {{ __('Teaching Profile') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('teacher.notifications')" :active="request()->routeIs('teacher.notifications')">
+                            {{ __('Notifications') }}
+                            @php
+                                $unreadCount = \App\Models\Notification::where('user_id', auth()->id())->where('is_read', false)->count();
+                            @endphp
+                            @if($unreadCount > 0)
+                                <span class="ml-1 px-1.5 py-0.5 bg-red-500 text-white rounded-full text-xs">{{ $unreadCount }}</span>
+                            @endif
                         </x-nav-link>
                     @endif
                 </div>
@@ -95,9 +111,24 @@
                 <x-responsive-nav-link :href="route('chair.report')" :active="request()->routeIs('chair.report')">
                     {{ __('Report') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('chair.audit.log')" :active="request()->routeIs('chair.audit.log')">
+                    {{ __('Audit Log') }}
+                </x-responsive-nav-link>
             @else
                 <x-responsive-nav-link :href="route('teacher.dashboard')" :active="request()->routeIs('teacher.dashboard')">
                     {{ __('Dashboard') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('teacher.teaching.profile')" :active="request()->routeIs('teacher.teaching.profile')">
+                    {{ __('Teaching Profile') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('teacher.notifications')" :active="request()->routeIs('teacher.notifications')">
+                    {{ __('Notifications') }}
+                    @php
+                        $unreadCount = \App\Models\Notification::where('user_id', auth()->id())->where('is_read', false)->count();
+                    @endphp
+                    @if($unreadCount > 0)
+                        <span class="ml-1 px-1.5 py-0.5 bg-red-500 text-white rounded-full text-xs">{{ $unreadCount }}</span>
+                    @endif
                 </x-responsive-nav-link>
             @endif
         </div>
