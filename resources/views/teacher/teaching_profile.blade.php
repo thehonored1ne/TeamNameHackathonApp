@@ -7,10 +7,6 @@
                 </h2>
                 <p class="text-[10px] text-gray-600 font-bold uppercase tracking-[0.2em] mt-2 italic">Expertise & Availability Settings</p>
             </div>
-            <div class="hidden sm:flex items-center gap-3 bg-white border border-gray-200 p-2 rounded-2xl shadow-sm">
-                <div class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
-                <span class="text-xs font-black text-gray-700 uppercase tracking-widest">Configuration Active</span>
-            </div>
         </div>
     </x-slot>
 
@@ -40,7 +36,7 @@
                 <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm relative overflow-hidden">
                     <div class="relative z-10">
                         <h3 class="text-xl font-black text-gray-900 tracking-tight mb-6 flex items-center gap-3">
-                            <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span>
+                            <span class="w-1.5 h-6 bg-red-600 rounded-full"></span>
                             Expertise & Load
                         </h3>
 
@@ -48,7 +44,7 @@
                             <div class="md:col-span-2">
                                 <label class="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">Expertise Areas</label>
                                 <input type="text" name="expertise_areas" value="{{ $teacherProfile->expertise_areas }}"
-                                    class="w-full bg-gray-50 border-gray-200 rounded-xl px-4 py-3 text-sm font-medium focus:ring-indigo-500 focus:border-indigo-500"
+                                    class="w-full bg-gray-50 border-gray-200 rounded-xl px-4 py-3 text-sm font-medium focus:ring-red-500 focus:border-red-500"
                                     placeholder="e.g. Programming|Mathematics|Database">
                                 <p class="text-[9px] text-gray-400 font-bold mt-2 uppercase tracking-tighter italic">Separate multiple areas with the pipe | symbol</p>
                                 @error('expertise_areas') <p class="text-red-600 text-[10px] font-bold mt-1 uppercase">{{ $message }}</p> @enderror
@@ -57,13 +53,13 @@
                             <div>
                                 <label class="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">Maximum Semester Units</label>
                                 <input type="number" name="max_units" value="{{ $teacherProfile->max_units }}" min="1" max="30"
-                                    class="w-full bg-gray-50 border-gray-200 rounded-xl px-4 py-3 text-sm font-medium focus:ring-indigo-500 focus:border-indigo-500">
+                                    class="w-full bg-gray-50 border-gray-200 rounded-xl px-4 py-3 text-sm font-medium focus:ring-red-500 focus:border-red-500">
                                 <p class="text-[9px] text-gray-400 font-bold mt-2 uppercase tracking-tighter italic">Recommended range: 12 - 24 units</p>
                                 @error('max_units') <p class="text-red-600 text-[10px] font-bold mt-1 uppercase">{{ $message }}</p> @enderror
                             </div>
                         </div>
                     </div>
-                    <div class="absolute -right-12 -top-12 w-48 h-48 bg-indigo-50 rounded-full blur-3xl opacity-60"></div>
+                    <div class="absolute -right-12 -top-12 w-48 h-48 bg-red-50 rounded-full blur-3xl opacity-60"></div>
                 </div>
 
                 {{-- Availability Card --}}
@@ -74,7 +70,7 @@
                             <p class="text-[10px] text-gray-500 font-bold uppercase mt-2">Specify your teaching windows</p>
                         </div>
                         <button type="button" onclick="addRow()"
-                            class="px-4 py-2 bg-indigo-50 text-indigo-700 border border-indigo-100 rounded-xl hover:bg-indigo-100 transition text-[10px] font-black uppercase tracking-widest">
+                            class="px-4 py-2 bg-red-50 text-red-700 border border-red-100 rounded-xl hover:bg-red-100 transition text-[10px] font-black uppercase tracking-widest">
                             + Add New Slot
                         </button>
                     </div>
@@ -84,16 +80,16 @@
                             @forelse($teacherProfile->availabilities as $index => $availability)
                             <div class="flex flex-wrap items-center gap-4 p-4 bg-gray-50/50 border border-gray-100 rounded-2xl">
                                 <div class="flex-grow min-w-[150px]">
-                                    <select name="days[]" class="w-full bg-white border-gray-200 rounded-xl px-4 py-2 text-xs font-bold text-gray-700 focus:ring-indigo-500">
+                                    <select name="days[]" class="w-full bg-white border-gray-200 rounded-xl px-4 py-2 text-xs font-bold text-gray-700 focus:ring-red-500">
                                         @foreach(['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'] as $day)
                                             <option value="{{ $day }}" {{ $availability->day === $day ? 'selected' : '' }}>{{ $day }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="flex items-center gap-3">
-                                    <input type="time" name="time_starts[]" value="{{ $availability->time_start }}" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-xs font-bold focus:ring-indigo-500">
+                                    <input type="time" name="time_starts[]" value="{{ $availability->time_start }}" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-xs font-bold focus:ring-red-500">
                                     <span class="text-[10px] font-black text-gray-400 uppercase">to</span>
-                                    <input type="time" name="time_ends[]" value="{{ $availability->time_end }}" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-xs font-bold focus:ring-indigo-500">
+                                    <input type="time" name="time_ends[]" value="{{ $availability->time_end }}" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-xs font-bold focus:ring-red-500">
                                 </div>
                                 <button type="button" onclick="this.parentElement.remove()" class="p-2 text-red-400 hover:text-red-600 transition">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
@@ -127,10 +123,10 @@
         function addRow() {
             const container = document.getElementById('new-rows');
             const div = document.createElement('div');
-            div.className = 'flex flex-wrap items-center gap-4 p-4 bg-indigo-50/30 border border-indigo-100 rounded-2xl mt-4 animate-in slide-in-from-top-2 duration-300';
+            div.className = 'flex flex-wrap items-center gap-4 p-4 bg-red-50/30 border border-red-100 rounded-2xl mt-4 animate-in slide-in-from-top-2 duration-300';
             div.innerHTML = `
                 <div class="flex-grow min-w-[150px]">
-                    <select name="days[]" class="w-full bg-white border-gray-200 rounded-xl px-4 py-2 text-xs font-bold text-gray-700 focus:ring-indigo-500">
+                    <select name="days[]" class="w-full bg-white border-gray-200 rounded-xl px-4 py-2 text-xs font-bold text-gray-700 focus:ring-red-500">
                         <option value="Monday">Monday</option>
                         <option value="Tuesday">Tuesday</option>
                         <option value="Wednesday">Wednesday</option>
@@ -140,9 +136,9 @@
                     </select>
                 </div>
                 <div class="flex items-center gap-3">
-                    <input type="time" name="time_starts[]" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-xs font-bold focus:ring-indigo-500">
+                    <input type="time" name="time_starts[]" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-xs font-bold focus:ring-red-500">
                     <span class="text-[10px] font-black text-gray-400 uppercase">to</span>
-                    <input type="time" name="time_ends[]" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-xs font-bold focus:ring-indigo-500">
+                    <input type="time" name="time_ends[]" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-xs font-bold focus:ring-red-500">
                 </div>
                 <button type="button" onclick="this.parentElement.remove()" class="p-2 text-red-400 hover:text-red-600 transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>

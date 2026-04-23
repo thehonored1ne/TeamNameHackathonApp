@@ -7,10 +7,6 @@
                 </h2>
                 <p class="text-[10px] text-gray-600 font-bold uppercase tracking-[0.2em] mt-2 italic">Official Academic Records</p>
             </div>
-            <div class="hidden sm:flex items-center gap-3 bg-white border border-gray-200 p-2 rounded-2xl shadow-sm">
-                <div class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
-                <span class="text-xs font-black text-gray-700 uppercase tracking-widest">Live Report</span>
-            </div>
         </div>
     </x-slot>
 
@@ -41,7 +37,7 @@
                         Export PDF
                     </a>
                 </div>
-                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-indigo-50 rounded-full blur-3xl opacity-50"></div>
+                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-red-50 rounded-full blur-3xl opacity-50"></div>
             </div>
 
             {{-- Consolidated Report Table --}}
@@ -80,7 +76,7 @@
                                         </td>
                                         @endif
                                         <td class="px-6 py-4">
-                                            <span class="text-[10px] font-black text-indigo-600 block leading-none">{{ $assignment->subject->code }}</span>
+                                            <span class="text-[10px] font-black text-red-600 block leading-none">{{ $assignment->subject->code }}</span>
                                             <span class="text-xs font-bold text-gray-600">{{ $assignment->subject->name }}</span>
                                         </td>
                                         <td class="px-6 py-4 text-center font-mono font-bold text-gray-900 text-xs">{{ $assignment->total_units }}</td>
@@ -143,7 +139,7 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="inline-flex items-center gap-2 text-[11px] font-bold text-gray-600">
-                                        <svg class="w-3.5 h-3.5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        <svg class="w-3.5 h-3.5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                         {{ $assignment->schedule->day }} ({{ $assignment->schedule->time_start }} - {{ $assignment->schedule->time_end }})
                                         <span class="px-2 py-0.5 bg-gray-100 rounded text-gray-500 text-[10px]">Room {{ $assignment->schedule->room }}</span>
                                     </div>

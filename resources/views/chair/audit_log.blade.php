@@ -7,10 +7,6 @@
                 </h2>
                 <p class="text-[10px] text-gray-600 font-bold uppercase tracking-[0.2em] mt-2 italic">System Activity & History</p>
             </div>
-            <div class="hidden sm:flex items-center gap-3 bg-white border border-gray-200 p-2 rounded-2xl shadow-sm">
-                <div class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
-                <span class="text-xs font-black text-gray-700 uppercase tracking-widest">Security Monitoring</span>
-            </div>
         </div>
     </x-slot>
 
@@ -23,7 +19,7 @@
                     <h3 class="text-xl font-black text-gray-900 tracking-tight">Assignment History</h3>
                     <p class="text-sm text-gray-600 mt-1 font-medium max-w-md">Trace all automated generations and manual overrides performed by program chairs.</p>
                 </div>
-                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-indigo-50 rounded-full blur-3xl opacity-50"></div>
+                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-red-50 rounded-full blur-3xl opacity-50"></div>
             </div>
 
             {{-- Logs Table --}}
@@ -50,7 +46,7 @@
                                 </td>
                                 <td class="px-6 py-5">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center text-[10px] font-black border border-indigo-100">
+                                        <div class="w-8 h-8 rounded-xl bg-red-50 text-red-700 flex items-center justify-center text-[10px] font-black border border-indigo-100">
                                             {{ strtoupper(substr($log->user->name, 0, 1)) }}
                                         </div>
                                         <span class="text-sm font-black text-gray-900 leading-none">{{ $log->user->name }}</span>
@@ -58,7 +54,7 @@
                                 </td>
                                 <td class="px-6 py-5">
                                     @if($log->action === 'generated')
-                                        <span class="inline-flex items-center px-3 py-1 bg-indigo-50 text-indigo-700 rounded-lg text-[10px] font-black uppercase tracking-widest border border-indigo-100">
+                                        <span class="inline-flex items-center px-3 py-1 bg-red-50 text-red-700 rounded-lg text-[10px] font-black uppercase tracking-widest border border-indigo-100">
                                             Generated
                                         </span>
                                     @elseif($log->action === 'overridden')
@@ -76,7 +72,7 @@
                                         @if($log->action === 'generated')
                                             Success: Processed <span class="font-black text-gray-900">{{ $log->details['total_assignments'] ?? 0 }}</span> subject assignments.
                                         @elseif($log->action === 'overridden')
-                                            Reassigned <span class="text-indigo-600 font-bold">{{ $log->details['subject'] ?? 'N/A' }}</span>:
+                                            Reassigned <span class="text-red-600 font-bold">{{ $log->details['subject'] ?? 'N/A' }}</span>:
                                             <span class="inline-flex items-center gap-1 opacity-70">
                                                 {{ $log->details['from_teacher'] ?? 'N/A' }} 
                                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-width="2.5"/></svg>

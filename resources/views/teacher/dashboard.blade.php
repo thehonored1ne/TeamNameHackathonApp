@@ -5,11 +5,7 @@
                 <h2 class="font-black text-2xl text-gray-900 tracking-tight leading-none">
                     {{ __('Teacher Dashboard') }}
                 </h2>
-                <p class="text-[10px] text-gray-600 font-bold uppercase tracking-[0.2em] mt-2 italic">Faculty Portal — Academic Year 2025-2026</p>
-            </div>
-            <div class="hidden sm:flex items-center gap-3 bg-white border border-gray-200 p-2 rounded-2xl shadow-sm">
-                <div class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
-                <span class="text-xs font-black text-gray-700 uppercase tracking-widest">Portal Online</span>
+                <p class="text-[10px] text-gray-600 font-bold uppercase tracking-[0.2em] mt-2 italic">Faculty Portal</p>
             </div>
         </div>
     </x-slot>
@@ -30,7 +26,7 @@
                         Export My Schedule
                     </a>
                 </div>
-                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-indigo-50 rounded-full blur-3xl opacity-50"></div>
+                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-red-50 rounded-full blur-3xl opacity-50"></div>
             </div>
 
             {{-- Stats Cards --}}
@@ -79,13 +75,13 @@
                             @forelse($assignments as $assignment)
                             <tr class="group hover:bg-gray-50 transition">
                                 <td class="px-6 py-5">
-                                    <p class="text-[10px] font-black text-indigo-600 uppercase tracking-widest mb-1">{{ $assignment->subject->code }}</p>
+                                    <p class="text-[10px] font-black text-red-600 uppercase tracking-widest mb-1">{{ $assignment->subject->code }}</p>
                                     <p class="text-sm font-black text-gray-900 leading-none">{{ $assignment->subject->name }}</p>
                                 </td>
                                 <td class="px-6 py-5 text-center font-mono font-bold text-gray-900">{{ $assignment->total_units }}</td>
                                 <td class="px-6 py-5">
                                     <div class="flex items-center gap-2 text-xs font-bold text-gray-600">
-                                        <span class="bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-lg text-[10px] font-black">{{ $assignment->schedule->day }}</span>
+                                        <span class="bg-red-50 text-red-700 px-2 py-0.5 rounded-lg text-[10px] font-black">{{ $assignment->schedule->day }}</span>
                                         {{ $assignment->schedule->time_start }} - {{ $assignment->schedule->time_end }}
                                     </div>
                                 </td>

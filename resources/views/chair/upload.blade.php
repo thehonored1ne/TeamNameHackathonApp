@@ -5,11 +5,7 @@
                 <h2 class="font-black text-2xl text-gray-900 tracking-tight leading-none">
                     {{ __('Upload Files') }}
                 </h2>
-                <p class="text-[10px] text-gray-600 font-bold uppercase tracking-[0.2em] mt-2 italic">Data Import Center</p>
-            </div>
-            <div class="hidden sm:flex items-center gap-3 bg-white border border-gray-200 p-2 rounded-2xl shadow-sm">
-                <div class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
-                <span class="text-xs font-black text-gray-700 uppercase tracking-widest">System Ready</span>
+                <p class="text-[10px] text-gray-600 font-bold uppercase tracking-[0.2em] mt-2 italic">Data Import</p>
             </div>
         </div>
     </x-slot>
@@ -70,11 +66,11 @@
                     <div class="flex flex-col md:flex-row justify-between items-start gap-6 mb-8">
                         <div class="flex-1">
                             <h3 class="text-xl font-black text-gray-900 tracking-tight flex items-center gap-3">
-                                <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span>
+                                <span class="w-1.5 h-6 bg-red-600 rounded-full"></span>
                                 {{ $section['title'] }}
                             </h3>
                             <p class="text-sm text-gray-600 mt-2 font-medium">
-                                Format: <span class="bg-gray-100 px-2 py-0.5 rounded text-indigo-700 font-mono text-xs">CSV or Excel (.xlsx)</span>. 
+                                Format: <span class="bg-gray-100 px-2 py-0.5 rounded text-red-700 font-mono text-xs">CSV or Excel (.xlsx)</span>. 
                                 <span class="block mt-1 text-gray-500 italic">{{ $section['format_desc'] }}</span>
                             </p>
                             <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest mt-3">{{ $section['note'] }}</p>
@@ -82,23 +78,23 @@
                         
                         <div class="flex gap-2 shrink-0">
                             <a href="{{ route('chair.templates.download', ['type' => $section['type'], 'format' => 'csv']) }}"
-                                class="px-4 py-2 bg-gray-50 text-gray-600 rounded-xl hover:bg-gray-100 transition text-[10px] font-black uppercase tracking-widest border border-gray-200">
-                                CSV Template
+                                class="inline-flex items-center px-4 py-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition text-[10px] font-black uppercase tracking-widest border border-gray-200">
+                                <img src="{{ asset('assets/download.png') }}" alt="CSV Icon" class="w-4 h-4 mr-2">CSV Template
                             </a>
                             <a href="{{ route('chair.templates.download', ['type' => $section['type'], 'format' => 'excel']) }}"
-                                class="px-4 py-2 bg-emerald-50 text-emerald-700 rounded-xl hover:bg-emerald-100 transition text-[10px] font-black uppercase tracking-widest border border-emerald-100">
-                                Excel Template
+                                class="inline-flex items-center px-4 py-2 bg-red-50 text-red-700 rounded-xl hover:bg-red-100 transition text-[10px] font-black uppercase tracking-widest border border-red-200">
+                                <img src="{{ asset('assets/download.png') }}" alt="Excel Icon" class="w-4 h-4 mr-2">Excel Template
                             </a>
                         </div>
                     </div>
 
                     <form method="POST" action="{{ route($section['route']) }}" enctype="multipart/form-data">
                         @csrf
-                        <div class="group relative flex flex-col md:flex-row items-center gap-4 p-4 border-2 border-dashed border-gray-200 rounded-2xl hover:border-indigo-300 hover:bg-indigo-50/30 transition-all">
+                        <div class="group relative flex flex-col md:flex-row items-center gap-4 p-4 border-2 border-dashed border-gray-200 rounded-2xl hover:border-red-300 hover:bg-red-50/30 transition-all">
                             <input type="file" 
                                    name="{{ $section['input_name'] }}" 
                                    accept=".csv,.xlsx,.xls" 
-                                   class="flex-grow text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[10px] file:font-black file:uppercase file:tracking-widest file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 cursor-pointer">
+                                   class="flex-grow text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[10px] file:font-black file:uppercase file:tracking-widest file:bg-red-600 file:text-white hover:file:bg-red-700 cursor-pointer">
                             
                             <button type="submit" class="w-full md:w-auto px-8 py-2.5 bg-gray-900 text-white rounded-xl hover:bg-gray-800 transition text-xs font-black uppercase tracking-widest shadow-lg shadow-gray-200">
                                 Import Data

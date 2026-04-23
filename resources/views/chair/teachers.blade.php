@@ -7,10 +7,6 @@
                 </h2>
                 <p class="text-[10px] text-gray-600 font-bold uppercase tracking-[0.2em] mt-2 italic">Faculty Records & Credentials</p>
             </div>
-            <div class="hidden sm:flex items-center gap-3 bg-white border border-gray-200 p-2 rounded-2xl shadow-sm">
-                <div class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
-                <span class="text-xs font-black text-gray-700 uppercase tracking-widest">Active Database</span>
-            </div>
         </div>
     </x-slot>
 
@@ -36,7 +32,7 @@
             <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm relative overflow-hidden">
                 <div class="relative z-10">
                     <h3 class="text-xl font-black text-gray-900 tracking-tight mb-6 flex items-center gap-3">
-                        <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span>
+                        <span class="w-1.5 h-6 bg-red-600 rounded-full"></span>
                         Add New Teacher
                     </h3>
                     
@@ -47,21 +43,21 @@
                             <div>
                                 <label class="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">Full Name</label>
                                 <input type="text" name="name" value="{{ old('name') }}" placeholder="e.g. Juan Dela Cruz"
-                                    class="w-full bg-gray-50 border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                    class="w-full bg-gray-50 border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-red-500 focus:border-red-500">
                                 @error('name') <p class="text-red-600 text-[10px] font-bold mt-1 uppercase">{{ $message }}</p> @enderror
                             </div>
 
                             <div>
                                 <label class="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">Email Address</label>
                                 <input type="email" name="email" value="{{ old('email') }}" placeholder="e.g. juan@school.edu"
-                                    class="w-full bg-gray-50 border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                    class="w-full bg-gray-50 border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-red-500 focus:border-red-500">
                                 @error('email') <p class="text-red-600 text-[10px] font-bold mt-1 uppercase">{{ $message }}</p> @enderror
                             </div>
 
                             <div>
                                 <label class="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">Expertise Areas</label>
                                 <input type="text" name="expertise_areas" value="{{ old('expertise_areas') }}" placeholder="e.g. Programming|Mathematics"
-                                    class="w-full bg-gray-50 border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                    class="w-full bg-gray-50 border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-red-500 focus:border-red-500">
                                 <p class="text-[9px] text-gray-400 font-bold mt-1 italic uppercase tracking-tighter">Use pipe | as separator</p>
                                 @error('expertise_areas') <p class="text-red-600 text-[10px] font-bold mt-1 uppercase">{{ $message }}</p> @enderror
                             </div>
@@ -69,14 +65,14 @@
                             <div>
                                 <label class="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">Max Unit Load</label>
                                 <input type="number" name="max_units" value="{{ old('max_units', 21) }}" min="1" max="30"
-                                    class="w-full bg-gray-50 border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                    class="w-full bg-gray-50 border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-red-500 focus:border-red-500">
                                 @error('max_units') <p class="text-red-600 text-[10px] font-bold mt-1 uppercase">{{ $message }}</p> @enderror
                             </div>
 
                             <div>
                                 <label class="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">Account Password</label>
                                 <input type="password" name="password" placeholder="••••••••"
-                                    class="w-full bg-gray-50 border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                    class="w-full bg-gray-50 border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-red-500 focus:border-red-500">
                                 @error('password') <p class="text-red-600 text-[10px] font-bold mt-1 uppercase">{{ $message }}</p> @enderror
                             </div>
                         </div>
@@ -86,15 +82,15 @@
                             <label class="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-4">Availability Schedule (Optional)</label>
                             <div id="availability-rows" class="space-y-3">
                                 <div class="flex flex-wrap items-center gap-3">
-                                    <select name="days[]" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-sm w-full sm:w-40 focus:ring-indigo-500">
+                                    <select name="days[]" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-sm w-full sm:w-40 focus:ring-red-500">
                                         <option value="">-- Day --</option>
                                         @foreach(['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'] as $day)
                                             <option value="{{ $day }}">{{ $day }}</option>
                                         @endforeach
                                     </select>
-                                    <input type="time" name="time_starts[]" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-indigo-500">
+                                    <input type="time" name="time_starts[]" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-red-500">
                                     <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">to</span>
-                                    <input type="time" name="time_ends[]" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-indigo-500">
+                                    <input type="time" name="time_ends[]" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-red-500">
                                     <button type="button" onclick="addAvailabilityRow()"
                                         class="px-4 py-2 bg-white text-gray-600 border border-gray-200 rounded-xl hover:bg-gray-100 transition text-[10px] font-black uppercase tracking-widest">
                                         + Add Row
@@ -105,20 +101,20 @@
 
                         <div class="flex justify-end pt-4">
                             <button type="submit"
-                                class="px-10 py-3 bg-gray-900 text-white rounded-2xl hover:bg-gray-800 transition text-xs font-black uppercase tracking-widest shadow-lg shadow-gray-200">
+                                class="px-10 py-3 bg-red-900 text-white rounded-2xl hover:bg-red-800 transition text-xs font-black uppercase tracking-widest shadow-lg shadow-red-200">
                                 Register Teacher
                             </button>
                         </div>
                     </form>
                 </div>
-                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-indigo-50 rounded-full blur-3xl opacity-50"></div>
+                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-red-50 rounded-full blur-3xl opacity-50"></div>
             </div>
 
             {{-- Teachers List --}}
             <div class="bg-white border border-gray-100 rounded-3xl shadow-sm overflow-hidden">
                 <div class="p-6 border-b border-gray-50 flex items-center justify-between">
                     <div>
-                        <h3 class="text-sm font-black text-gray-900 uppercase tracking-widest">Faculty Roster</h3>
+                        <h3 class="text-sm font-black text-gray-900 uppercase tracking-widest">Faculty Members</h3>
                         <p class="text-[10px] text-gray-500 font-bold uppercase mt-1">{{ $teachers->count() }} Profiles onboarded</p>
                     </div>
                 </div>
@@ -137,7 +133,7 @@
                             <tr class="group hover:bg-gray-50/50 transition">
                                 <td class="px-6 py-5">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-sm">
+                                        <div class="w-10 h-10 rounded-2xl bg-red-50 text-red-700 flex items-center justify-center text-xs font-black group-hover:bg-red-600 group-hover:text-white transition-all shadow-sm">
                                             {{ strtoupper(substr($teacher->user->name, 0, 1)) }}
                                         </div>
                                         <div>
@@ -150,7 +146,7 @@
                                     <div class="flex flex-wrap gap-1.5 max-w-xs">
                                         @foreach(explode('|', $teacher->expertise_areas) as $area)
                                             @if(!empty(trim($area)))
-                                            <span class="inline-block px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-md text-[9px] font-black uppercase tracking-widest border border-indigo-100">
+                                            <span class="inline-block px-2 py-0.5 bg-red-50 text-red-700 rounded-md text-[9px] font-black uppercase tracking-widest border border-red-100">
                                                 {{ trim($area) }}
                                             </span>
                                             @endif
@@ -199,15 +195,15 @@
             const div = document.createElement('div');
             div.className = 'flex flex-wrap items-center gap-3 animate-in fade-in duration-300';
             div.innerHTML = `
-                <select name="days[]" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-sm w-full sm:w-40 focus:ring-indigo-500">
+                <select name="days[]" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-sm w-full sm:w-40 focus:ring-red-500">
                     <option value="">-- Day --</option>
                     @foreach(['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'] as $day)
                         <option value="{{ $day }}">{{ $day }}</option>
                     @endforeach
                 </select>
-                <input type="time" name="time_starts[]" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-indigo-500">
+                <input type="time" name="time_starts[]" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-red-500">
                 <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">to</span>
-                <input type="time" name="time_ends[]" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-indigo-500">
+                <input type="time" name="time_ends[]" class="bg-white border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-red-500">
                 <button type="button" onclick="this.parentElement.remove()"
                     class="px-4 py-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition text-[10px] font-black uppercase tracking-widest border border-red-100">
                     Remove

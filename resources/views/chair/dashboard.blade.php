@@ -7,10 +7,6 @@
                 </h2>
                 <p class="text-[10px] text-gray-600 font-bold uppercase tracking-[0.2em] mt-2 italic">Academic Control Center</p>
             </div>
-            <div class="hidden sm:flex items-center gap-3 bg-white border border-gray-200 p-2 rounded-2xl shadow-sm">
-                <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                <span class="text-xs font-black text-gray-700 uppercase tracking-widest">System Active</span>
-            </div>
         </div>
     </x-slot>
 
@@ -20,7 +16,7 @@
             {{-- Top Row: Unified White Cards --}}
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                 <div class="lg:col-span-2 relative overflow-hidden bg-white border border-gray-100 rounded-3xl p-8 shadow-sm flex flex-col justify-center">
-                    <h3 class="text-2xl font-black text-gray-900 leading-tight">Welcome back,<br>{{ Auth::user()->name }}!</h3>
+                    <h3 class="text-2xl font-black text-gray-900 leading-tight">Welcome back,{{ Auth::user()->name }}</h3>
                     <p class="text-sm text-gray-600 mt-3 leading-relaxed">You have <span class="text-red-700 font-bold">{{ $overloadedCount }} overloaded</span> teachers. Distribution data is current.</p>
                     <div class="absolute -right-8 -bottom-8 w-40 h-40 bg-indigo-50 rounded-full blur-3xl opacity-60"></div>
                 </div>
@@ -29,16 +25,13 @@
                 <div class="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm flex flex-col justify-center">
                     <p class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-1">Total Assignments</p>
                     <p class="text-4xl font-black text-gray-900">{{ $totalAssignments }}</p>
-                    <div class="mt-4">
-                        <span class="text-[10px] font-bold py-1 px-2 bg-indigo-50 rounded-lg text-indigo-700 border border-indigo-100 uppercase tracking-tighter">Spring 2026 Term</span>
-                    </div>
                 </div>
 
                 {{-- Stats: Conflicts --}}
                 <div class="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm flex flex-col justify-center">
                     <p class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-1">Conflicts Found</p>
                     <p class="text-4xl font-black {{ $conflictsCount > 0 ? 'text-red-600' : 'text-emerald-500' }}">{{ $conflictsCount }}</p>
-                    <p class="text-[10px] font-bold text-gray-500 mt-2 uppercase">✓ Data Integrity</p>
+                    <p class="text-[10px] font-bold text-gray-500 mt-2 uppercase"> </p>
                 </div>
             </div>
 
@@ -51,12 +44,12 @@
                     <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm flex flex-col">
                         <div class="flex items-center justify-between mb-8">
                             <h3 class="text-sm font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
-                                <span class="w-1.5 h-4 bg-indigo-600 rounded-full"></span>
+                                <span class="w-1.5 h-4 bg-red-700 rounded-full"></span>
                                 Load Analysis
                             </h3>
                             <div class="flex gap-4">
-                                <span class="flex items-center gap-1.5 text-[10px] font-black text-gray-600 uppercase"><span class="w-2 h-2 rounded-full bg-indigo-600"></span> Assigned</span>
-                                <span class="flex items-center gap-1.5 text-[10px] font-black text-gray-600 uppercase"><span class="w-2 h-2 rounded-full bg-slate-200"></span> Max</span>
+                                <span class="flex items-center gap-1.5 text-[10px] font-black text-gray-600 uppercase"><span class="w-2 h-2 rounded-full bg-red-700"></span> Assigned</span>
+                                <span class="flex items-center gap-1.5 text-[10px] font-black text-gray-600 uppercase"><span class="w-2 h-2 rounded-full bg-red-200"></span> Max</span>
                             </div>
                         </div>
                         <div class="h-[280px] w-full">
@@ -89,14 +82,14 @@
                 <div class="flex flex-col gap-8">
                     {{-- Fixed: Command Center now matches the white UI --}}
                     <div class="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm">
-                        <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-4">Command Center</h3>
+                        <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-4">Quick Action</h3>
                         <div class="grid grid-cols-1 gap-2">
-                            <a href="{{ route('chair.upload') }}" class="flex items-center justify-between p-3 bg-indigo-50 rounded-xl hover:bg-indigo-100 transition-all border border-indigo-100 group text-indigo-700">
+                            <a href="{{ route('chair.upload') }}" class="flex items-center justify-between p-3 bg-red-50 rounded-xl hover:bg-red-100 transition-all border border-red-100 group text-red-700">
                                 <span class="text-xs font-black uppercase tracking-widest">Upload Data</span>
                                 <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-width="3" stroke-linecap="round"/></svg>
                             </a>
-                            <a href="{{ route('chair.report') }}" class="flex items-center justify-between p-3 bg-indigo-50 rounded-xl hover:bg-indigo-100 transition-all border border-indigo-100 group text-indigo-700">
-                                <span class="text-xs font-black uppercase tracking-widest">Reports</span>
+                            <a href="{{ route('chair.report') }}" class="flex items-center justify-between p-3 bg-red-50 rounded-xl hover:bg-red-100 transition-all border border-red-100 group text-red-700">
+                                <span class="text-xs font-black uppercase tracking-widest">Show Reports</span>
                                 <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" stroke-width="2.5" stroke-linecap="round"/></svg>
                             </a>
                         </div>
@@ -110,7 +103,7 @@
                         <div class="divide-y divide-gray-50 overflow-y-auto flex-grow custom-scrollbar" style="max-height: 520px;">
                             @forelse($recentAssignments->take(10) as $assignment)
                             <div class="p-4 hover:bg-gray-50 transition flex items-center gap-4 group">
-                                <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center text-[10px] font-black group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-sm">
+                                <div class="w-10 h-10 rounded-2xl bg-red-50 text-red-700 flex items-center justify-center text-[10px] font-black group-hover:bg-red-600 group-hover:text-white transition-all shadow-sm">
                                     {{ strtoupper(substr($assignment->teacherProfile->user->name, 0, 1)) }}
                                 </div>
                                 <div class="min-w-0 flex-1">
@@ -125,7 +118,7 @@
                             <div class="p-12 text-center text-[10px] font-black text-gray-400 uppercase tracking-widest italic">No recent activity</div>
                             @endforelse
                         </div>
-                        <a href="{{ route('chair.assignments') }}" class="block p-5 text-center text-[9px] font-black text-indigo-600 hover:bg-indigo-50 border-t border-gray-50 uppercase tracking-[0.25em] transition bg-white mt-auto">
+                        <a href="{{ route('chair.assignments') }}" class="block p-5 text-center text-[9px] font-black text-red-600 hover:bg-red-50 border-t border-gray-50 uppercase tracking-[0.25em] transition bg-white mt-auto">
                             Full Log
                         </a>
                     </div>
@@ -138,7 +131,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const uiColors = {
-            indigo: '#4f46e5',
+            indigo: '#b91c1c',
             emerald: '#10b981',
             amber: '#f59e0b',
             slateFill: '#E2E8F0', 

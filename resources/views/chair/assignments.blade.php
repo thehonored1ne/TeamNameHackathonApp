@@ -7,10 +7,6 @@
                 </h2>
                 <p class="text-[10px] text-gray-600 font-bold uppercase tracking-[0.2em] mt-2 italic">Schedule Management</p>
             </div>
-            <div class="hidden sm:flex items-center gap-3 bg-white border border-gray-200 p-2 rounded-2xl shadow-sm">
-                <div class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
-                <span class="text-xs font-black text-gray-700 uppercase tracking-widest">Live Engine</span>
-            </div>
         </div>
     </x-slot>
 
@@ -33,11 +29,11 @@
                 </div>
                 <form method="POST" action="{{ route('chair.assignments.generate') }}" class="relative z-10 w-full md:w-auto">
                     @csrf
-                    <button type="submit" class="w-full md:w-auto px-8 py-3 bg-gray-900 text-white rounded-2xl hover:bg-gray-800 transition text-xs font-black uppercase tracking-widest shadow-lg shadow-gray-200">
-                        ⚡ Generate Schedule
+                    <button type="submit" class="w-full md:w-auto px-8 py-3 bg-red-700 text-white rounded-2xl hover:bg-red-600 transition text-xs font-black uppercase tracking-widest shadow-lg shadow-gray-200">
+                        Generate Schedule
                     </button>
                 </form>
-                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-indigo-50 rounded-full blur-3xl opacity-50"></div>
+                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-red-50 rounded-full blur-3xl opacity-50"></div>
             </div>
 
             {{-- Filter Bar --}}
@@ -63,8 +59,8 @@
                         <label class="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">Status</label>
                         <select name="status" class="w-full bg-gray-50 border-gray-200 rounded-xl px-4 py-2.5 text-sm">
                             <option value="">All Status</option>
-                            <option value="ok" {{ request('status') === 'ok' ? 'selected' : '' }}>✓ OK</option>
-                            <option value="overloaded" {{ request('status') === 'overloaded' ? 'selected' : '' }}>⚠ Overloaded</option>
+                            <option value="ok" {{ request('status') === 'ok' ? 'selected' : '' }}>OK</option>
+                            <option value="overloaded" {{ request('status') === 'overloaded' ? 'selected' : '' }}>Overloaded</option>
                         </select>
                     </div>
 
@@ -79,7 +75,7 @@
                     </div>
 
                     <div class="sm:col-span-2 lg:col-span-4 flex items-center gap-3 pt-2">
-                        <button type="submit" class="px-6 py-2.5 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition text-xs font-black uppercase tracking-widest">
+                        <button type="submit" class="px-6 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 transition text-xs font-black uppercase tracking-widest">
                             Apply Filters
                         </button>
                         <a href="{{ route('chair.assignments') }}" class="px-6 py-2.5 bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 transition text-xs font-black uppercase tracking-widest">
@@ -114,7 +110,7 @@
                                     <p class="text-xs text-gray-500 font-medium">{{ $assignment->subject->name }}</p>
                                 </td>
                                 <td class="px-6 py-5 text-xs font-bold text-gray-600">
-                                    <span class="block text-indigo-600 mb-1 tracking-tight">{{ $assignment->schedule->day }}</span>
+                                    <span class="block text-red-600 mb-1 tracking-tight">{{ $assignment->schedule->day }}</span>
                                     {{ $assignment->schedule->time_start }} - {{ $assignment->schedule->time_end }}
                                     <span class="text-gray-400 ml-1">[{{ $assignment->schedule->room }}]</span>
                                 </td>
@@ -128,7 +124,7 @@
                                                 <span>{{ $percent }}%</span>
                                             </div>
                                             <div class="w-full bg-gray-100 rounded-full h-1">
-                                                <div class="bg-indigo-600 h-1 rounded-full" style="width: {{ $percent }}%"></div>
+                                                <div class="bg-red-600 h-1 rounded-full" style="width: {{ $percent }}%"></div>
                                             </div>
                                         </div>
                                     @else

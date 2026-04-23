@@ -7,10 +7,6 @@
                 </h2>
                 <p class="text-[10px] text-gray-600 font-bold uppercase tracking-[0.2em] mt-2 italic">Updates & Alerts</p>
             </div>
-            <div class="hidden sm:flex items-center gap-3 bg-white border border-gray-200 p-2 rounded-2xl shadow-sm">
-                <div class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
-                <span class="text-xs font-black text-gray-700 uppercase tracking-widest">Inbox Live</span>
-            </div>
         </div>
     </x-slot>
 
@@ -43,10 +39,10 @@
             {{-- Notifications List --}}
             <div class="space-y-4">
                 @forelse($notifications as $notification)
-                <div class="group relative bg-white border {{ $notification->is_read ? 'border-gray-100' : 'border-indigo-100' }} rounded-3xl p-6 shadow-sm transition hover:shadow-md">
+                <div class="group relative bg-white border {{ $notification->is_read ? 'border-gray-100' : 'border-red-100' }} rounded-3xl p-6 shadow-sm transition hover:shadow-md">
                     
                     {{-- Status Indicator Bar --}}
-                    <div class="absolute left-0 top-6 bottom-6 w-1 rounded-r-full {{ $notification->is_read ? 'bg-gray-100' : 'bg-indigo-600' }}"></div>
+                    <div class="absolute left-0 top-6 bottom-6 w-1 rounded-r-full {{ $notification->is_read ? 'bg-gray-100' : 'bg-red-600' }}"></div>
 
                     <div class="flex justify-between items-start gap-4">
                         <div class="flex-1">
@@ -55,7 +51,7 @@
                                     {{ $notification->title }}
                                 </p>
                                 @if(!$notification->is_read)
-                                    <span class="px-2 py-0.5 bg-indigo-600 text-white rounded-lg text-[9px] font-black uppercase tracking-widest">New</span>
+                                    <span class="px-2 py-0.5 bg-red-600 text-white rounded-lg text-[9px] font-black uppercase tracking-widest">New</span>
                                 @endif
                             </div>
                             <p class="text-gray-600 text-xs font-medium mt-2 leading-relaxed">{{ $notification->message }}</p>
@@ -69,7 +65,7 @@
                         <form method="POST" action="{{ route('teacher.notifications.read', $notification->id) }}">
                             @csrf
                             @method('PATCH')
-                            <button type="submit" class="p-2 bg-indigo-50 text-indigo-600 rounded-xl hover:bg-indigo-600 hover:text-white transition opacity-0 group-hover:opacity-100">
+                            <button type="submit" class="p-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-600 hover:text-white transition opacity-0 group-hover:opacity-100">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </button>
                         </form>
