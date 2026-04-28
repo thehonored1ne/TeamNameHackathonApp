@@ -59,7 +59,7 @@
                         <label class="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">Status</label>
                         <select name="status" class="w-full bg-gray-50 border-gray-200 rounded-xl px-4 py-2.5 text-sm">
                             <option value="">All Status</option>
-                            <option value="ok" {{ request('status') === 'ok' ? 'selected' : '' }}>OK</option>
+                            <option value="ok" {{ request('status') === 'ok' ? 'selected' : '' }}>Normal</option>
                             <option value="overloaded" {{ request('status') === 'overloaded' ? 'selected' : '' }}>Overloaded</option>
                         </select>
                     </div>
@@ -116,11 +116,11 @@
                                 </td>
                                 <td class="px-6 py-5 text-center font-mono font-bold text-gray-900">{{ $assignment->total_units }}</td>
                                 <td class="px-6 py-5">
-                                    @if(!is_null($assignment->match_score))
+                                    @if($assignment->rationale === 'expertise_match' && !is_null($assignment->match_score))
                                         @php $percent = $assignment->match_score * 100; @endphp
                                         <div class="flex flex-col gap-1.5">
                                             <div class="flex items-center justify-between text-[10px] font-black uppercase text-gray-400">
-                                                <span>{{ str_replace('_', ' ', $assignment->rationale) }}</span>
+                                                <span>EXPERTISE MATCH</span>
                                                 <span>{{ $percent }}%</span>
                                             </div>
                                             <div class="w-full bg-gray-100 rounded-full h-1">
@@ -182,7 +182,7 @@
                         {{ $unassignedSubjects->count() }} Critical
                     </span>
                 </div>
-                
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     @foreach($unassignedSubjects as $subject)
                     <div class="bg-red-50/50 border border-red-100 rounded-2xl p-5 flex flex-col justify-between group hover:bg-red-50 transition-colors">

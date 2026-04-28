@@ -41,37 +41,49 @@ class AssignmentService
             if (!$schedule) break;
             $scheduleIndex++;
 
-            // Score teachers using TF-IDF
-            $scoredTeachers = [];
+            // Score all teachers using TF-IDF (no threshold filter here)
+            $scoredTeachers = collect();
             foreach ($teachers as $teacher) {
                 $score = $tfidfService->calculateMatchScore($teacher->expertise_areas ?? '', $subject->name);
-                if ($score >= 0.3) {
-                    $scoredTeachers[] = [
-                        'teacher' => $teacher,
-                        'score' => $score,
-                    ];
-                }
+                $scoredTeachers->push([
+                    'teacher' => $teacher,
+                    'score' => $score,
+                ]);
             }
 
-            usort($scoredTeachers, fn($a, $b) => $b['score'] <=> $a['score']);
+            // Use sortByDesc to preserve Eloquent model instances
+            $scoredTeachers = $scoredTeachers->sortByDesc('score')->values();
 
-            // Filter by availability and conflict — expertise only, no fallback
-            $availableExpertise = collect($scoredTeachers)->filter(function ($item) use ($schedule, $teacherScheduleMap) {
-                return $this->isAvailable($item['teacher'], $schedule) &&
-                    $this->hasNoConflict($item['teacher']->id, $schedule->id, $teacherScheduleMap);
+            // Primary search: expertise match (score >= 0.3)
+            $availableExpertise = $scoredTeachers->filter(function ($item) use ($schedule, &$teacherScheduleMap) {
+                return $item['score'] >= 0.3
+                    && $this->isAvailable($item['teacher'], $schedule)
+                    && $this->hasNoConflict($item['teacher']->id, $schedule->id, $teacherScheduleMap);
             });
 
             $bestMatch = $availableExpertise->first();
 
-            if (!$bestMatch) {
-                // No expert available — skip, leave unassigned
-                $skipped[] = $subject->name . ' (no available expert)';
-                continue;
+            if ($bestMatch) {
+                $selectedTeacher = $bestMatch['teacher'];
+                $matchScore = $bestMatch['score'];
+                $rationale = 'expertise_match';
+            } else {
+                // Fallback: any available teacher, still sorted by score
+                $availableGeneral = $scoredTeachers->filter(function ($item) use ($schedule, &$teacherScheduleMap) {
+                    return $this->isAvailable($item['teacher'], $schedule)
+                        && $this->hasNoConflict($item['teacher']->id, $schedule->id, $teacherScheduleMap);
+                });
+
+                $bestFallback = $availableGeneral->first();
+                $selectedTeacher = $bestFallback['teacher'] ?? null;
+                $matchScore = $bestFallback['score'] ?? null;
+                $rationale = 'availability';
             }
 
-            $selectedTeacher = $bestMatch['teacher'];
-            $matchScore = $bestMatch['score'];
-            $rationale = 'expertise_match';
+            if (!$selectedTeacher) {
+                $skipped[] = $subject->name . ' (no available teacher)';
+                continue;
+            }
 
             $currentUnits = $selectedTeacher->assignments()->sum('total_units');
             $newTotal = $currentUnits + $subject->units;
