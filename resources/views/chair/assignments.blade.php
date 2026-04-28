@@ -51,7 +51,7 @@
                             <option value="">All Logic</option>
                             <option value="expertise_match" {{ request('rationale') === 'expertise_match' ? 'selected' : '' }}>Expertise Match</option>
                             <option value="availability" {{ request('rationale') === 'availability' ? 'selected' : '' }}>Availability</option>
-                            <option value="manual_override" {{ request('rationale') === 'manual_override' ? 'selected' : '' }}>Manual Override</option>
+                            <option value="manual_override" {{ request('rationale') === 'manual_override' ? 'selected' : '' }}>Manual Override.</option>
                         </select>
                     </div>
 
