@@ -1,0 +1,59 @@
+##For Administrator & Department Chair Users
+Administrators oversee the entire matching process to ensure subjects are assigned to the most qualified faculty members.  
+
+Step 1: Access the Portal
+Sign In: Open the application and log in with your administrative credentials.  
+
+Profile Management: Update your administrative contact details in the Profile section.  
+
+Step 2: Build the Teacher Database
+Create Profiles: Add new faculty members or update existing records in the Teachers section.  
+
+Bulk Upload: Use the Teacher Import tool to upload large lists of faculty data from an external file.  
+
+Verify Expertise: Ensure teacher profiles contain detailed skills and backgrounds to help the AI calculate accurate match scores.  
+
+Step 3: Setup Subjects and Schedules
+Define Subjects: List all courses available for the term in the Subjects section.  
+
+Set Requirements: Assign specific keywords or expertise requirements to each subject.  
+
+Establish Times: Input the official days and times for each class to define the Schedules.  
+
+Step 4: Generate Assignments
+Calculate Matches: Run the automated matching logic to compare teacher expertise against subject requirements.  
+
+Review Scores: View the Match Score for each proposed assignment to see how well the faculty member fits the course.  
+
+Finalize Load: Confirm and approve the assignments to set the official teaching load.  
+
+Step 5: Monitor Activity
+Notifications: Check for alerts regarding assignment updates or system changes.  
+
+Audit Logs: Review the Audit Log to see a chronological history of all administrative actions taken within the app.  
+
+##For Teacher Users
+Teachers manage their own professional information and view their final class schedules.  
+
+Step 1: Access the Dashboard
+Sign In: Log in using your assigned teacher account.  
+
+Dashboard Overview: View your current status and any immediate alerts from the administration.  
+
+Step 2: Manage Professional Details
+Update Profile: Keep your contact information and professional background current in the Profile area.  
+
+List Expertise: Describe your specific skills and experience; this ensures the system matches you with the right subjects.  
+
+Step 3: Define Your Availability
+Set Free Time: Navigate to the Availability tab.  
+
+Select Slots: Mark the specific days and hours you are available to teach for the upcoming term.  
+
+Step 4: Review Your Teaching Load
+View Assignments: Once approved by the Chair, check your assigned subjects in the Assignments or Schedules section.  
+
+Check Details: Review the assigned class times, rooms, and match scores for your courses.  
+
+Step 5: Receive Updates
+Alerts: Stay informed through Notifications if an administrator changes your schedule or profile.
